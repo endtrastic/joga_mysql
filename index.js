@@ -1,5 +1,7 @@
+
 const express = require('express');
 const app = express();
+
 
 const path = require('path');
 
@@ -39,16 +41,17 @@ app.get('/', (req, res) => {
       articles = result
       console.log(articles)
       res.render('index',  { articles: articles });
-    }) 
+    })    
 })
 
 app.get('/article/:slug', (req, res) => {
-  let query = `SELECT * FROM article WHERE slug = "${req.params.slug}"`;
-  let article;
+  let query = `SELECT article.*, author.id as author_id, author.name as author_name
+      FROM article 
+      JOIN author ON article.author_id = author.id 
+      WHERE article.slug="${req.params.slug}"`;
   con.query(query, (err, result) => {
       if (err) throw err;
       article = result;
-      console.log(article);
       res.render('article', {
           article: article
       });
@@ -56,6 +59,6 @@ app.get('/article/:slug', (req, res) => {
 });
 
 
-app.listen(3003, () => {
-  console.log('App is started at http://localhost:3003');
+app.listen(3001, () => {
+  console.log('App is started at http://localhost:3001');
 });
