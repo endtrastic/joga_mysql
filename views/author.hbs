@@ -1,0 +1,17 @@
+<h1>Author: {{author.name}}</h1>
+<p>Author ID: {{author.id}}</p>
+
+<h2>Articles by {{author.name}}:</h2>
+{{#if articles.length}}
+  <ul>
+    {{#each articles}}
+        <a href="/article/{{this.slug}}">
+          <img src="/images/{{this.image}}" alt="{{this.name}}" />
+          <h3>{{this.name}}</h3>
+        </a>
+        <hr>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No articles found for this author.</p>
+{{/if}}
