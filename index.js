@@ -30,6 +30,11 @@ con.connect(function (err) {
     console.log("Connected to your joga_mysql database :V");
 });
 
+const ArticleRoutes = require('./routes/article');
+// Using the routes
+app.use('/', ArticleRoutes);
+app.use('/article', ArticleRoutes)
+
 app.get('/author/:id', (req, res) => {
     const authorId = req.params.id;  // Get the author ID from the URL
   
@@ -61,35 +66,10 @@ app.get('/author/:id', (req, res) => {
 });
 
 
+// Kogu aeg saan errori, et keegi juba kasutab seda porti niiet tegin selle natuke paremaks, et kui keegi kasutab seda porti pean ainult constanti port vahetama, et saada enda serverit startida
 
-
-app.get('/', (req, res) => {
-    let query = "SELECT * FROM article";
-    let articles = []
-    con.query(query, (err, result) => {
-      if (err) throw err;
-      articles = result
-      console.log(articles)
-      res.render('index',  { articles: articles });
-    })    
-})
-
-app.get('/article/:slug', (req, res) => {
-  let query = `SELECT article.*, author.id as author_id, author.name as author_name
-      FROM article 
-      JOIN author ON article.author_id = author.id 
-      WHERE article.slug="${req.params.slug}"`;
-  con.query(query, (err, result) => {
-      if (err) throw err;
-      article = result;
-      res.render('article', {
-          article: article
-      });
-  });
-});
-
-
-const port = 3000;
+const port = 3001;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
