@@ -1,5 +1,4 @@
-// Importing the databases connection
-
+// Databases connection
 const con = require('../utils/db');
 
 
